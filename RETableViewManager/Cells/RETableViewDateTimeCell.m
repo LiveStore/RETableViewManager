@@ -81,20 +81,31 @@
 
 - (void)cellWillAppear
 {
+    
+    //多次调用影响拖拽流畅度
+    if (self.item.settingChangeNeeded) {
+        
+        self.textField.inputView = self.datePicker;
+        self.datePicker.datePickerMode = self.item.datePickerMode;
+        self.datePicker.calendar = self.item.calendar;
+        self.datePicker.timeZone = self.item.timeZone;
+        self.datePicker.minimumDate = self.item.minimumDate;
+        self.datePicker.maximumDate = self.item.maximumDate;
+        self.datePicker.minuteInterval = self.item.minuteInterval;
+        self.dateFormatter.dateFormat = self.item.format;
+        self.datePicker.locale = self.item.locale;
+        
+        self.item.settingChangeNeeded = NO;
+        
+    }
+    
     self.textLabel.text = self.item.title.length == 0 ? @" " : self.item.title;
-    self.textField.inputView = self.datePicker;
+
     self.datePicker.date = self.item.value ? self.item.value : (self.item.pickerStartDate ? self.item.pickerStartDate : [NSDate date]);
-    self.datePicker.datePickerMode = self.item.datePickerMode;
-    self.datePicker.locale = self.item.locale;
-    self.datePicker.calendar = self.item.calendar;
-    self.datePicker.timeZone = self.item.timeZone;
-    self.datePicker.minimumDate = self.item.minimumDate;
-    self.datePicker.maximumDate = self.item.maximumDate;
-    self.datePicker.minuteInterval = self.item.minuteInterval;
-    self.dateFormatter.dateFormat = self.item.format;
     self.dateLabel.text = self.item.value ? [self.dateFormatter stringFromDate:self.item.value] : @"";
     self.placeholderLabel.text = self.item.placeholder;
     self.placeholderLabel.hidden = self.dateLabel.text.length > 0;
+
     
     if (!self.item.title) {
         self.dateLabel.textAlignment = NSTextAlignmentLeft;
