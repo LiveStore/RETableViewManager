@@ -79,6 +79,8 @@
 - (void)cellDidLoad
 {
     self.loaded = YES;
+    self.textLabel.textColor = [UIColor colorWithRed:67.0/255.0 green:67.0/255.0 blue:67.0/255.0 alpha:1.0];
+    self.textLabel.font = [UIFont systemFontOfSize:16.0];
     self.actionBar = [[REActionBar alloc] initWithDelegate:self];
     self.selectionStyle = self.tableViewManager.style.defaultCellSelectionStyle;
     
